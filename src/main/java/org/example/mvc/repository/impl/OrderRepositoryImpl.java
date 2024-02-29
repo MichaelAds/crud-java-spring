@@ -37,7 +37,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                 return obj;
             }
         }
-        return orderList.get(0);
+        return null;
     }
 
     @Override

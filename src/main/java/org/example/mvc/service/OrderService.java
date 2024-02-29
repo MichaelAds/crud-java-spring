@@ -5,8 +5,8 @@ import org.example.mvc.repository.entity.Order;
 import org.example.mvc.repository.impl.OrderRepositoryImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -16,13 +16,16 @@ public class OrderService {
         this.repository = repository;
     }
 
-    public List<Order> getAllOrder(){
+    public List<Order> findAll(){
         List<Order> obj = repository.findAll();
-        return obj.stream().collect(Collectors.toList());
+        return new ArrayList<>(obj);
     }
 
     public Order insertOrder(Order order) {
-        return repository.save(setData(order));
+        Order entity = new Order();
+        entity.setId(order.getId());
+        entity.setPrice(order.getPrice());
+        return repository.save(entity);
     }
 
     public Order findById(Long id) {
@@ -34,13 +37,6 @@ public class OrderService {
         Order obj = repository.findById(id);
         obj.setPrice(order.getPrice());
         return repository.save(obj);
-    }
-
-    private Order setData(Order order) {
-        Order entity = new Order();
-        entity.setId(order.getId());
-        entity.setPrice(order.getPrice());
-        return entity;
     }
 
     public void delete(Long id) {
